@@ -7,13 +7,9 @@ const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
-const routes = require('./routes');
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 //Create Apollo server
 const server = new ApolloServer({
@@ -25,6 +21,8 @@ const server = new ApolloServer({
 const startApolloServer = async () => {
   await server.start();
 
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
   //Define route for GraphQL endpoint
   app.use(
     '/graphql',
@@ -36,6 +34,7 @@ const startApolloServer = async () => {
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/build')));
   }
+
   db.once('open', () => {
     app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
   });

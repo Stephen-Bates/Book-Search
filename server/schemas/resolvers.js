@@ -7,9 +7,12 @@ const resolvers = {
       return User.findOne({ _id: userId });
     },
     getMe: async (parent, args, context) => {
+      // If a user is logged in properly
       if (context.user) {
+        // Return their info
         return User.findOne({ _id: context.user._id });
       }
+      // Otherwise, throw an error
       throw AuthenticationError;
     }
   },

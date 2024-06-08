@@ -46,9 +46,9 @@ const SavedBooks = () => {
     }
   };
 
-  // if (!userData?.username) {
-  //   return <h4>You need to be logged in to see this content.</h4>;
-  // }
+  if (!userData?.username) {
+    return <h2>You need to log in to view your profile.</h2>;
+  }
 
   // if data isn't here yet, say so
   if (loading) {

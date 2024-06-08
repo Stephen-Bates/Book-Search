@@ -22,7 +22,7 @@ const resolvers = {
       // Create a new User
       const user = await User.create({ username, email, password });
       // Sign a token
-      const token = signToken(profile);
+      const token = signToken(user);
       // Return the token and new User info
       return { token, user }
     },

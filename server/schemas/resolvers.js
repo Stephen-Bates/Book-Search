@@ -26,16 +26,16 @@ const resolvers = {
       // Return the token and new User info
       return { token, user }
     },
-    login: async (parent, { username, email, password }) => {
-      // Get User information using username or email provided
-      const user = User.findOne({ $or: [{ username }, { email }] })
-
+    login: async (parent, { email, password }) => {
+      // Get user info
+      const user = await User.findOne({ email })
       // If user wasn't found, throw an error
       if (!user) {
         throw AuthenticationError;
       }
       // Check if the password supplied matches records using custom method
       const correctPW = await user.isCorrectPassword(password);
+
       // If password wasn't authorized, throw an error
       if (!correctPW) {
         throw AuthenticationError;
